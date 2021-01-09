@@ -3,6 +3,8 @@ package com.fzd.mockito.api;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.LinkedList;
@@ -78,4 +80,14 @@ public class VerifyTest_6_10 {
         verifyNoMoreInteractions(mockedList);
     }
 
+    @Mock
+    private LinkedList<String> mockAnnotationList;
+    /**
+     * 简写 mock 创建，使用 mock 注解
+     */
+    @Test
+    public void mockAnnotation(){
+        // 重要！这需要在基类中或测试运行器中：
+//        MockitoAnnotations.openMocks(testClass);
+    }
 }
