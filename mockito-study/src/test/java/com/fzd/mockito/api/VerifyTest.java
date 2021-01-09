@@ -104,4 +104,15 @@ public class VerifyTest {
         verify(mockedList, atLeast(2)).add("three times");
         verify(mockedList, atMost(5)).add("three times");
     }
+
+    /**
+     * void method 打桩和异常
+     */
+    @Test
+    public void voidMethodWithException(){
+        LinkedList<String> mockedList = mock(LinkedList.class);
+        doThrow(new RuntimeException()).when(mockedList).clear();
+        // 抛出 RuntimeException
+        mockedList.clear();
+    }
 }
