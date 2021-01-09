@@ -59,4 +59,18 @@ public class VerifyTest {
         log.info(mockedList.get(0));
         verify(mockedList).get(0);
     }
+
+    /**
+     * 参数匹配器
+     */
+    @Test
+    public void argumentsMatcher(){
+        LinkedList<String> mockedList = mock(LinkedList.class);
+        // stubbing 使用内置 anyInt 参数匹配器
+        when(mockedList.get(anyInt())).thenReturn("element");
+        //打印 "element"
+        log.info(mockedList.get(999));
+        // 验证使用参数匹配器
+        verify(mockedList).get(anyInt());
+    }
 }
