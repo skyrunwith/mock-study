@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import java.util.LinkedList;
 import java.util.List;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 /**
  * @Description: verify demo
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.verify;
  */
 @Slf4j
 @RunWith(MockitoJUnitRunner.class)
-public class VerifyTest { 
+public class VerifyTest {
     /**
      * 模拟对象，使用模拟对象，验证使用模拟对象情况
      */
@@ -34,5 +35,28 @@ public class VerifyTest {
 
         //异常：Wanted but not invoked
 //        verify(list).size();
+    }
+
+    /**
+     * 怎么stubbing？
+     * when.xxx
+     */
+    @Test
+    public void stubbing(){
+        //mock 具体的类，不仅仅是 接口
+        LinkedList<String> mockedList = mock(LinkedList.class);
+
+        //stubbing
+        when(mockedList.get(0)).thenReturn("first");
+        when(mockedList.get(1)).thenThrow(new RuntimeException());
+
+        //打印 first
+        log.info(mockedList.get(0));
+        //抛出 RuntimeException
+//        log.info(mockedList.get(1));
+        //打印 null，因为 get(999) 没有stubbing
+        log.info(mockedList.get(999));
+        log.info(mockedList.get(0));
+        verify(mockedList).get(0);
     }
 }
