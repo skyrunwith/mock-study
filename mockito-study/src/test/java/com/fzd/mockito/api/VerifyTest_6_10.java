@@ -62,4 +62,20 @@ public class VerifyTest_6_10 {
         LinkedList<String> mockThree = mock(LinkedList.class);
         verifyNoInteractions(mockTwo, mockThree);
     }
+
+    /**
+     * 查找冗余调用，不建议每个测试里面都调用verifyNoMoreInteractions方法
+     */
+    @Test
+    public void findRedundantInvocation(){
+        LinkedList<String> mockedList = mock(LinkedList.class);
+        mockedList.add("one");
+        // 该操作会发生冗余调用
+        mockedList.add("two");
+
+        verify(mockedList).add("one");
+        // 以下验证会失败
+        verifyNoMoreInteractions(mockedList);
+    }
+
 }
