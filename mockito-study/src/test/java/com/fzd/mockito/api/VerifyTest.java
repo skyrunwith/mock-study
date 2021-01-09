@@ -3,6 +3,7 @@ package com.fzd.mockito.api;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.verification.AtMost;
 import org.mockito.junit.MockitoJUnitRunner;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,5 +73,35 @@ public class VerifyTest {
         log.info(mockedList.get(999));
         // 验证使用参数匹配器
         verify(mockedList).get(anyInt());
+    }
+
+    /**
+     * 验证精确的 调用次数/至少x次/从不
+     */
+    @Test
+    public void verifyInvocationTimes(){
+        LinkedList<String> mockedList = mock(LinkedList.class);
+        // mock
+        mockedList.add("once");
+        mockedList.add("twice");
+        mockedList.add("twice");
+        mockedList.add("three times");
+        mockedList.add("three times");
+        mockedList.add("three times");
+
+        // 默认验证调用一次
+        verify(mockedList).add("once");
+        verify(mockedList, times(1)).add("once");
+        // 验证调用两次
+        verify(mockedList, times(2)).add("twice");
+        // 验证调用三次
+        verify(mockedList, times(3)).add("three times");
+        // 验证从不调用
+        verify(mockedList, never()).add("never happen");
+        // 使用 atMost/atLeast 验证
+        verify(mockedList, atMostOnce()).add("once");
+        verify(mockedList, atLeastOnce()).add("twice");
+        verify(mockedList, atLeast(2)).add("three times");
+        verify(mockedList, atMost(5)).add("three times");
     }
 }
