@@ -1,5 +1,6 @@
 package com.fzd.mockito.api;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -16,6 +17,7 @@ import static org.mockito.Mockito.*;
  * @Author: fuzude
  * @Date: 2021-01-09
  */
+@Slf4j
 @RunWith(MockitoJUnitRunner.class)
 public class VerifyTest_6_10 {
 
@@ -89,5 +91,36 @@ public class VerifyTest_6_10 {
     public void mockAnnotation(){
         // 重要！这需要在基类中或测试运行器中：
 //        MockitoAnnotations.openMocks(testClass);
+    }
+
+    /**
+     * 为连续调用打桩（迭代风格打桩）
+     */
+    @Test
+    public void consecutiveStubbing(){
+        LinkedList<String> mockedList = mock(LinkedList.class);
+
+        when(mockedList.get(0))
+                .thenThrow(new RuntimeException())
+                .thenReturn("foo");
+        // 第一次调用，抛出异常
+        try {
+            mockedList.get(0);
+        }catch (RuntimeException e){
+            log.info("RuntimeException");
+        }
+        // 第二次调用，打印 "foo"
+        log.info(mockedList.get(0));
+        // 任意连续调用：也是打印 "foo"
+        log.info(mockedList.get(0));
+
+        // 简短版本的 stubbing
+        when(mockedList.get(0))
+                .thenReturn("one", "two", "three");
+
+        // 如果不是chaining，则每一个stubbing会覆盖钱一个stubbing
+        when(mockedList.get(0)).thenReturn("one");
+        when(mockedList.get(0)).thenReturn("two");
+        log.info(mockedList.get(0));
     }
 }
