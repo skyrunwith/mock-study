@@ -45,4 +45,21 @@ public class VerifyTest_6_10 {
         multiOrder.verify(secondMock).add("was added second");
         // A+B可以混合使用
     }
+
+    /**
+     * 保证交互操作不会发生在mock上
+     */
+    @Test
+    public void interactionNeverHappenOnMock(){
+        LinkedList<String> mockOne = mock(LinkedList.class);
+        // mockOne 进行交互操作
+        mockOne.add("one");
+        verify(mockOne).add("one");
+        // 验证该方法从没被mock调用过
+        verify(mockOne, never()).add("two");
+        // 验证其他mock没有交互操作
+        LinkedList<String> mockTwo = mock(LinkedList.class);
+        LinkedList<String> mockThree = mock(LinkedList.class);
+        verifyNoInteractions(mockTwo, mockThree);
+    }
 }
