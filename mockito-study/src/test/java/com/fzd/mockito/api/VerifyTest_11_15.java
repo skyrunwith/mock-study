@@ -1,10 +1,13 @@
 package com.fzd.mockito.api;
 
+import com.fzd.mockito.dos.Foo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -74,5 +77,14 @@ public class VerifyTest_11_15 {
 //        when(spy2.get(0)).thenReturn("foo");
         // 使用 doReturn 打桩
         doReturn("foo").when(spy2).get(0);
+    }
+
+    /**
+     * 改变未stubbed方法的默认返回值
+     */
+    @Test
+    public void changeDefaultReturn(){
+        Foo foo = mock(Foo.class, RETURNS_SMART_NULLS);
+        Foo fooTwo = mock(Foo.class, invocation -> "");
     }
 }
