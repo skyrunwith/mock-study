@@ -32,4 +32,15 @@ public class VerifyTest_11_15 {
         });
         log.info(mockList.get(0));
     }
+
+    /**
+     * 为 void 方法打桩
+     * doThrow, doReturn, doAnswer, doNothing, doCallRealMethod
+     */
+    @Test(expected = RuntimeException.class)
+    public void stubVoidMethod(){
+        LinkedList<String> mockList = mock(LinkedList.class);
+        doThrow(new RuntimeException()).when(mockList).clear();
+        mockList.clear();
+    }
 }
