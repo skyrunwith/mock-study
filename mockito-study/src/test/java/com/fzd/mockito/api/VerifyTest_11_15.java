@@ -1,9 +1,11 @@
 package com.fzd.mockito.api;
 
 import com.fzd.mockito.dos.Foo;
+import com.fzd.mockito.dos.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -87,4 +89,18 @@ public class VerifyTest_11_15 {
         Foo foo = mock(Foo.class, RETURNS_SMART_NULLS);
         Foo fooTwo = mock(Foo.class, invocation -> "");
     }
+
+    /**
+     * 为下一步断言捕获参数
+     */
+    @Test
+    public void capturingArguments(){
+        LinkedList<Person> mock = mock(LinkedList.class);
+
+        mock.add(new Person("fzd"));
+        ArgumentCaptor<Person> argument = ArgumentCaptor.forClass(Person.class);
+        verify(mock).add(argument.capture());
+        log.info(argument.getValue().getName());
+    }
+
 }
